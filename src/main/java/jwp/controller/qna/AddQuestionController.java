@@ -1,20 +1,20 @@
 package jwp.controller.qna;
 
-import core.mvc.Controller;
+import core.mvc.AbstractController;
+import core.mvc.view.ModelAndView;
 import jwp.dao.QuestionDao;
 import jwp.model.Question;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
-public class AddQuestionController implements Controller {
+public class AddQuestionController extends AbstractController {
     QuestionDao questionDao = new QuestionDao();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Question question = new Question(request.getParameter("writer"), request.getParameter("title"), request.getParameter("contents"), 0);
+    public ModelAndView execute(Map<String, String> params) throws Exception {
+        Question question = new Question(params.get("writer"), params.get("title"), params.get("contents"), 0);
         questionDao.insert(question);
 
-        return "redirect:/";
+        return jspView("redirect:/");
     }
 }

@@ -1,24 +1,24 @@
 package jwp.controller;
 
-import core.mvc.Controller;
+import core.mvc.AbstractController;
+import core.mvc.view.ModelAndView;
 import jwp.dao.UserDao;
 import jwp.model.User;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 
-public class CreateUserController implements Controller {
+public class CreateUserController extends AbstractController {
     UserDao userDao = new UserDao();
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        User user = new User(req.getParameter("userId"),
-                req.getParameter("password"),
-                req.getParameter("name"),
-                req.getParameter("email"));
+    public ModelAndView execute(Map<String, String> params) throws Exception {
+        User user = new User(params.get("userId"),
+                params.get("password"),
+                params.get("name"),
+                params.get("email"));
 
         userDao.insert(user);
-        return "redirect:/user/list";
+        return jspView("redirect:/user/list");
     }
 }

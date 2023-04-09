@@ -1,10 +1,11 @@
 package core.mvc;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import core.mvc.view.ModelAndView;
+
+import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 public interface Controller {
-    String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception;
+    ModelAndView execute(Map<String,String> params) throws Exception;
+    default void setSession(HttpSession session) {}
 }

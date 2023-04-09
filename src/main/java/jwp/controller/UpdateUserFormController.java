@@ -1,25 +1,27 @@
 package jwp.controller;
 
+import core.mvc.AbstractController;
 import core.mvc.Controller;
+import core.mvc.view.ModelAndView;
 import jwp.dao.UserDao;
 import jwp.model.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 
-public class UpdateUserFormController implements Controller {
+public class UpdateUserFormController extends AbstractController {
 
     UserDao userDao = new UserDao();
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        String userId = req.getParameter("userId");
+    public ModelAndView execute(Map<String, String> params) throws Exception {
+        String userId = params.get("userId");
         User user = userDao.findByUserId(userId);
         if (user != null) {
-            req.setAttribute("user",user);
-            return "/user/updateForm.jsp";
+            return jspView("/user/updateForm.jsp").addObject("user",user);
         }
-        return "redirect:/";
+        return jspView("redirect:/");
     }
 }
