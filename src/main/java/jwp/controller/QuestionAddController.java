@@ -6,22 +6,16 @@ import jwp.model.Question;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
-
-public class HomeController implements Controller {
+public class QuestionAddController implements Controller {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-
         QuestionDao questionDao = new QuestionDao();
-        List<Question> q = questionDao.findAll();
-        /*
-        'setAttribute'는 데이터 JSP(웹어플리케이션 서버 - 동적 파일을 정적 파일로 바꿔주는 역할)에 보내주는 역할.
-         */
-        req.setAttribute("questions",q);
 
+        questionDao.insert(new Question(0,req.getParameter("writer"),
+                req.getParameter("title"),
+                req.getParameter("contents"),0));
 
-        return "/home.jsp";
+        return "redirect:/";
     }
-
 }

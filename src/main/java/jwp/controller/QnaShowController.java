@@ -6,22 +6,19 @@ import jwp.model.Question;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
+public class QnaShowController implements Controller {
 
-public class HomeController implements Controller {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 
+        long questionId = Long.parseLong(req.getParameter("questionId"));
+
         QuestionDao questionDao = new QuestionDao();
-        List<Question> q = questionDao.findAll();
-        /*
-        'setAttribute'는 데이터 JSP(웹어플리케이션 서버 - 동적 파일을 정적 파일로 바꿔주는 역할)에 보내주는 역할.
-         */
-        req.setAttribute("questions",q);
+        Question question = questionDao.findByQuestionId((int) questionId);
 
+        req.setAttribute("question", question);
 
-        return "/home.jsp";
+        return "/qna/show.jsp";
     }
-
 }
